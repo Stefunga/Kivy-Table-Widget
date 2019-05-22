@@ -31,6 +31,7 @@ class Table(Widget):
     primary_color = StringProperty('ffffcc')
     secondary_color = StringProperty('ffffcc')
     header_color = StringProperty('ffffcc')
+    cols_titles = ListProperty({"d","f"})
     table_columns = NumericProperty(3)
     table_rows = NumericProperty(5)
 
@@ -73,19 +74,31 @@ class Table(Widget):
                 BorderImage(pos=(self.x, self.y + 1), size=(self.width, self.height - 2), border=(0, 0, 0, 50),
                             Color=Table.header_color)
     "=============================================================================================================================================="
+    print("This is some shit: "+str(cols_titles))
+    "Outline the size of the grid and add the headers"
+    grid = GridLayout(cols=cols_titles.get(0).length,rows=table_rows)
+    for i in cols_titles:
+        label = MyLabelHeader(text=i)
 
-        
-
-# class Test(Screen):
-#     print("fuck")
-#     table = Table(table_columns=10)
-#     self.add_widget(table)
+    "How I handle adding of new data, not sure if this is the ideal way"
+    def addCollumn(list):
+        if Table.primaryorsecondary == 1:
+            for i in list:
+                label = Table.MyLabelPrimary(text=str(i))
+                Table.grid.add_widget(label)
+            Table.primaryorsecondary=Table.primaryorsecondary*-1
+        else:
+            for i in list:
+                label = Table.MyLabelSecondary(text=str(i))
+                Table.grid.add_widget(label)
+            Table.primaryorsecondary = Table.primaryorsecondary * -1
 
 
 class TestApp(App):
 
     def build(self):
-        self.root = root = Table()
+        self.root = root = Table(cols_titles={"fuck","you"})
+        root.addCollumn(["fuck","fuck"])
         # print("success")
         return root
 "=============================================================================================================================================="
@@ -93,4 +106,5 @@ class TestApp(App):
 if __name__ == '__main__':
     TestApp().run()
 
+# table=createTable()
 # table=createTable()
