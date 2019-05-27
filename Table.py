@@ -74,7 +74,6 @@ class Table(Widget):
                 BorderImage(pos=(self.x, self.y + 1), size=(self.width, self.height - 2), border=(0, 0, 0, 50),
                             Color=Table.header_color)
     "=============================================================================================================================================="
-    print("This is some shit: "+str(cols_titles))
     "Outline the size of the grid and add the headers"
     grid = GridLayout(cols=cols_titles.get(0).length,rows=table_rows)
     for i in cols_titles:
@@ -97,8 +96,8 @@ class Table(Widget):
 class TestApp(App):
 
     def build(self):
-        self.root = root = Table(cols_titles={"fuck","you"})
-        root.addCollumn(["fuck","fuck"])
+        self.root = root = Table(cols_titles={"test","this"})
+        root.addCollumn(["test","this"])
         # print("success")
         return root
 "=============================================================================================================================================="
