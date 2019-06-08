@@ -107,6 +107,7 @@ class MyLabelHeader(Label):
 class Table(Widget):
 
     primary_color = StringProperty('ffffcc')
+
     secondary_color = StringProperty('ffffcc')
 
     header_color = StringProperty('ffffcc')
@@ -127,10 +128,30 @@ class Table(Widget):
     table_data = []
 
     def addRow(self,list):
+        self.grid.clear_widgets()
         # if(len(list)>self.table_rows):
         #     print("Incorrect size")
         self.table_data.insert(0,list)
-
+        print("Table data"+str(self.table_data))
+        primaryorsecondary =1
+        rowCheck = 0
+        while rowCheck < self.table_rows:
+            columnCheck = 0
+            while columnCheck < self.table_columns:
+                text = ""
+                if len(self.table_data) > rowCheck:
+                    print("len col:"+str(self.table_data))
+                    if len(self.table_data[rowCheck]) > columnCheck:
+                        print("len row:" + str(self.table_data[rowCheck][columnCheck]))
+                        text = self.table_data[rowCheck][columnCheck]
+                if primaryorsecondary == 1:
+                    label = MyLabelPrimary(text=text)
+                else:
+                    label = MyLabelSecondary(text=text)
+                self.grid.add_widget(label)
+                columnCheck = columnCheck + 1
+            rowCheck = rowCheck + 1
+            primaryorsecondary = primaryorsecondary * -1
         # if Table.primaryorsecondary == 1:
         #     for i in list:
         #         label = Table.MyLabelPrimary(text=str(i))
@@ -169,9 +190,19 @@ class TestApp(App):
     def build(self):
         self.root = root = Table(table_columns=6,table_rows=6,table_height =500,table_width=600)
         root.addRow(["2"])
+        root.addRow(["Data","Data2","Data3","Data4","Data5","Data6","Break it"])
+        root.addRow(["Data", "Data2", "Data3", "Data4", "Data5", "Data6", "Break it"])
+        root.addRow(["Data", "Data2", "Data3", "Data4", "Data5", "Data6", "Break it"])
+        root.addRow(["Data", "Data2", "Data3", "Data4", "Data5", "Data6", "Break it"])
+        root.addRow(["Data", "Data2", "Data3", "Data4", "Data5", "Data6", "Break it"])
+        root.addRow(["Data", "Data2", "Data3", "Data4", "Data5", "Data6", "Break it"])
+        root.addRow(["Data", "Data2", "Data3", "Data4", "Data5", "Data6", "Break it"])
+        root.addRow(["Data", "Data2", "Data3", "Data4", "Data5", "Data6", "Break it"])
+        root.addRow(["Data", "Data2", "Data3", "Yeet", "Data5", "Data6", "Break it"])
         return root
 "=============================================================================================================================================="
 
 if __name__ == '__main__':
-    TestApp().run()                                                                                          
+    TestApp().run()
+                                                                                        
                                                                                                                                                         
