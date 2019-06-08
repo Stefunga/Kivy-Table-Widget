@@ -1,23 +1,9 @@
 import kivy
 kivy.require('1.0.7')
 
-import kivy.utils as utils
-from kivy.base import EventLoop
-from kivy.graphics.instructions import Instruction,InstructionGroup
-from kivy.graphics import Color, Rectangle
-from kivy.core.window import Window
 from kivy.uix.label import Label
-from kivy.app import App
-from kivy.uix.button import Button
 from kivy.uix.widget import Widget
-from kivy.uix.boxlayout import BoxLayout
-from kivy.graphics import Color, Rectangle
-from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.image import Image
-from kivy.adapters.listadapter import ListAdapter
-from kivy.uix.listview import ListItemButton, ListView
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.screenmanager import Screen
 from kivy.graphics import BorderImage
 from kivy.app import App
 from kivy.uix.button import Button
@@ -56,7 +42,7 @@ class MyLabelSecondary(Label):
 "=============================================================================================================================================="
 
 
-class MyLabelHeader(Label):
+class MyLabelHeader(Button):
     def on_size(self, *args):
         self.canvas.before.clear()
         with self.canvas.before:
@@ -111,12 +97,11 @@ class Table(Widget):
     secondary_color = StringProperty('ffffcc')
 
     header_color = StringProperty('ffffcc')
-    
-    cols_titles = ListProperty({"d", "f"})
 
     table_height = NumericProperty(3)
 
     table_width = NumericProperty(3)
+
     '''Number of the columns, defaults to 3'''
     table_columns = NumericProperty(3)
 
@@ -124,34 +109,49 @@ class Table(Widget):
     table_rows = NumericProperty(5)
 
     '''Table data in 2 dimensional array'''
-    # table_rows = ListProperty()
     table_data = []
 
+    '''Headers'''
+    cols_titles = []
+
+    def addHeader(self,list):
+        self.cols_titles=list
+        self.Build()
+
     def addRow(self,list):
-        self.grid.clear_widgets()
-        # if(len(list)>self.table_rows):
-        #     print("Incorrect size")
         self.table_data.insert(0,list)
-        print("Table data"+str(self.table_data))
-        primaryorsecondary =1
+        self.Build()
+
+    def Build(self):
+        self.grid.clear_widgets()
+        print("Table data" + str(self.table_data))
+        header = 0
+        while self.table_columns > header:
+            h = MyLabelHeader(text="test")
+            self.grid.add_widget(h)
+            print("inside")
+            header = header + 1
+        primaryorsecondary = 1
         rowCheck = 0
-        while rowCheck < self.table_rows:
+        while rowCheck < self.table_rows-1:
             columnCheck = 0
             while columnCheck < self.table_columns:
                 text = ""
                 if len(self.table_data) > rowCheck:
-                    print("len col:"+str(self.table_data))
+                    print("len col:" + str(self.table_data))
                     if len(self.table_data[rowCheck]) > columnCheck:
                         print("len row:" + str(self.table_data[rowCheck][columnCheck]))
                         text = self.table_data[rowCheck][columnCheck]
                 if primaryorsecondary == 1:
-                    label = MyLabelPrimary(text=text)
+                    label = MyLabelPrimary(text=text,size_hint=[.25,.25])
                 else:
-                    label = MyLabelSecondary(text=text)
+                    label = MyLabelSecondary(text=text,size_hint=[.25,.25])
                 self.grid.add_widget(label)
                 columnCheck = columnCheck + 1
             rowCheck = rowCheck + 1
             primaryorsecondary = primaryorsecondary * -1
+
+
         # if Table.primaryorsecondary == 1:
         #     for i in list:
         #         label = Table.MyLabelPrimary(text=str(i))
@@ -188,7 +188,7 @@ class Table(Widget):
 class TestApp(App):
 
     def build(self):
-        self.root = root = Table(table_columns=6,table_rows=6,table_height =500,table_width=600)
+        self.root = root = Table(table_columns=6,table_rows=6,table_height =500,table_width=800)
         root.addRow(["2"])
         root.addRow(["Data","Data2","Data3","Data4","Data5","Data6","Break it"])
         root.addRow(["Data", "Data2", "Data3", "Data4", "Data5", "Data6", "Break it"])
@@ -204,5 +204,5 @@ class TestApp(App):
 
 if __name__ == '__main__':
     TestApp().run()
-                                                                                        
+                                                       
                                                                                                                                                         
