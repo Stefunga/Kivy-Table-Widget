@@ -13,7 +13,14 @@ from kivy.properties import ListProperty
 from kivy.properties import NumericProperty
 from kivy.core.window import Window
 
+primary_color = StringProperty('ffffcc')
+
+secondary_color = StringProperty('ffffcc')
+
+header_color = StringProperty('ffffcc')
+
 class MyLabelPrimary(Label):
+    primary_color = ListProperty([0, 0, 1, .5])
     def on_size(self, *args):
         self.canvas.before.clear()
         with self.canvas.before:
@@ -28,6 +35,7 @@ class MyLabelPrimary(Label):
 
 
 class MyLabelSecondary(Label):
+    secondary_color = ListProperty([0, 7, 0, .5])
     def on_size(self, *args):
         self.canvas.before.clear()
         with self.canvas.before:
@@ -42,61 +50,31 @@ class MyLabelSecondary(Label):
 "=============================================================================================================================================="
 
 
-class MyLabelHeader(Button):
+class MyLabelHeader(Label):
+    header_color = ListProperty([0, 0, 1, .5])
     def on_size(self, *args):
         self.canvas.before.clear()
         with self.canvas.before:
             # Color=TV.currentColor
             # text_size: self.size
-            # c = (0, 2, 0, 1)
-            Color(1, 0, 0, .5)
+            # print(Table.header_color)'
+            print("header color:" + str(self.header_color))
+            print("header color:" + str(self.header_color[0]))
+            Color(self.header_color[0],self.header_color[1],self.header_color[2], self.header_color[3])
             Rectangle(pos=self.pos, size=self.size)
             BorderImage(pos=(self.x, self.y + 1), size=(self.width, self.height - 2), border=(0, 0, 0, 50),
-                        Color=Table.header_color)
+                        Color=header_color)
 
 
 "=============================================================================================================================================="
 
-
-
-# class Table(Widget):
-#     primary_color = StringProperty('ffffcc')
-#     secondary_color = StringProperty('ffffcc')
-#     header_color = StringProperty('ffffcc')
-#     cols_titles = ListProperty({"d","f"})
-#
-#     '''Number of the columns, defaults to 3'''
-#     table_columns = NumericProperty(3)
-#
-#     '''Number of the rows, defaults to 5'''
-#     table_rows = NumericProperty(5)
-#
-#     "Outline the size of the grid and add the headers"
-#     grid = GridLayout(cols=cols_titles.get(0).length,rows=table_rows)
-#
-#     for i in cols_titles:
-#         label = MyLabelHeader(text=i)
-#
-#     "How I handle adding of new data, not sure if this is the ideal way"
-#     def addCollumn(list):
-#         if Table.primaryorsecondary == 1:
-#             for i in list:
-#                 label = Table.MyLabelPrimary(text=str(i))
-#                 Table.grid.add_widget(label)
-#             Table.primaryorsecondary=Table.primaryorsecondary*-1
-#         else:
-#             for i in list:
-#                 label = Table.MyLabelSecondary(text=str(i))
-#                 Table.grid.add_widget(label)
-#             # Table.primaryorsecondary = Table.primarimport
-
 class Table(Widget):
 
-    primary_color = StringProperty('ffffcc')
+    primary_color = ListProperty([0, 0, 1, .5])
 
-    secondary_color = StringProperty('ffffcc')
+    secondary_color = ListProperty([0, 7, 0, .5])
 
-    header_color = StringProperty('ffffcc')
+    header_color = ListProperty([1, 0, 1, .5])
 
     table_height = NumericProperty(3)
 
@@ -127,9 +105,11 @@ class Table(Widget):
         print("Table data" + str(self.table_data))
         header = 0
         while self.table_columns > header:
-            h = MyLabelHeader(text="test")
+            text=""
+            if(len(self.cols_titles)>header):
+                text = self.cols_titles[header]
+            h = MyLabelHeader(text=text,size_hint=[.15,.15],header_color=self.header_color)
             self.grid.add_widget(h)
-            print("inside")
             header = header + 1
         primaryorsecondary = 1
         rowCheck = 0
@@ -188,7 +168,7 @@ class Table(Widget):
 class TestApp(App):
 
     def build(self):
-        self.root = root = Table(table_columns=6,table_rows=6,table_height =500,table_width=800)
+        self.root = root = Table(table_columns=6,table_rows=6,table_height =500,table_width=800,header_color=[0,1,1,.3])
         root.addRow(["2"])
         root.addRow(["Data","Data2","Data3","Data4","Data5","Data6","Break it"])
         root.addRow(["Data", "Data2", "Data3", "Data4", "Data5", "Data6", "Break it"])
@@ -199,10 +179,9 @@ class TestApp(App):
         root.addRow(["Data", "Data2", "Data3", "Data4", "Data5", "Data6", "Break it"])
         root.addRow(["Data", "Data2", "Data3", "Data4", "Data5", "Data6", "Break it"])
         root.addRow(["Data", "Data2", "Data3", "Yeet", "Data5", "Data6", "Break it"])
+        root.addHeader(["a","b","c","asd","c","asd","fucl"])
         return root
 "=============================================================================================================================================="
 
 if __name__ == '__main__':
     TestApp().run()
-                                                       
-                                                                                                                                                        
