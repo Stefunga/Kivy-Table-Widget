@@ -14,3 +14,8 @@ How to add headers of to the table, needs to be added in list form.
 ```
 root.addHeader(["a","b","c","d","e","f","g"])
 ```
+## Example
+ Use of table widget in Cornerstone work tracker
+ 
+  ![alt text](https://github.com/Stefunga/Kivy-Table-Widget/blob/master/Table%20example.png)
+
