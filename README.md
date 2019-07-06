@@ -12,7 +12,7 @@ addRow(["Data","Data2","Data3","Data4","Data5","Data6"])
 ```
 How to add headers of to the table, needs to be added in list form.
 ```
-root.addHeader(["a","b","c","d","e","f","g"])
+addHeader(["a","b","c","d","e","f","g"])
 ```
 ## Example
  Use of table widget in Cornerstone work tracker
