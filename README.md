@@ -6,7 +6,7 @@ widget creation, can be instantiated with all or no variables.
 ```
 Table(table_columns=6,table_rows=6,table_height =500,table_width=800,header_color=[0,1,1,.3])
 ```
-How to add a row of data to the table,list form.
+How to add a row of data to the table.
 ```
 addRow(["Data","Data2","Data3","Data4","Data5","Data6"])
 ```
